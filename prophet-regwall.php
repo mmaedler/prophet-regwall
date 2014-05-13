@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Simple Pull Quote
+ * Plugin Name: Prophet Reg Wall
  * Plugin URI: http://github.com/mmaedler/prophet-regwall
  * Description: Adds a register form in front of selected posts
  * Author: Moritz Mädler
