@@ -1,0 +1,57 @@
+<svg style="display:none;"><filter id="svgblur"><feGaussianBlur stdDeviation="5"/></filter></svg>
+<div id="pbs_regwall_wrapper">
+    <div id="pbs_regwall_obscured">###CONTENT###</div>
+    <div id="pbs_regwall_registration_overlay"></div>
+    <div id="pbs_regwall_registration_block">
+        <div id="pbs_regwall_excerpt">###EXCERPT###</div>
+        <div id="pbs_regwall_form">
+            <p>&nbsp;</p>
+            <p>To continue reading, please register&hellip;</p>
+            <form id="etrReg" name="etrReg" method="post" action="">
+                <input type="hidden" name="espFormID" value="29">
+                <input type="hidden" name="x_udf_websource" value="theinspiratory">
+                <input type="hidden" name="x_udf_web_data257" value="###TRACKING###" id="pbs_regwall_trackingfield">
+                <input type="hidden" name="x_udf_contactclass__ss" value="37">
+
+                <div class="pbs_regwall_formblock">
+                    <div class="pbs_regwall_formlabel"><label for="x_firstname" class="pbs_regwall_required">First name:</label></div>
+                    <div class="pbs_regwall_formfield"><input type="text" name="x_firstname" id="x_firstname" class="field" maxlength="25"></div>
+                </div>
+                <div class="pbs_regwall_formblock">
+                    <div class="pbs_regwall_formlabel"><label for="x_lastname" class="pbs_regwall_required">Last name:</label></div>
+                    <div class="pbs_regwall_formfield"><input type="text" name="x_lastname" id="x_lastname" maxlength="25"></div>
+                </div>
+                <div class="pbs_regwall_clearleft"></div>
+
+                <div class="pbs_regwall_formblock">
+                    <div class="pbs_regwall_formlabel"><label for="x_companyname" class="pbs_regwall_required">Company:</label></div>
+                    <div class="pbs_regwall_formfield"><input type="text" name="x_companyname" id="x_companyname" maxlength="25"></div>
+                </div>
+                <div class="pbs_regwall_formblock">
+                    <div class="pbs_regwall_formlabel"><label for="x_title" class="pbs_regwall_required">Title/Position:</label></div>
+                    <div class="pbs_regwall_formfield"><input type="text" name="x_title" id="x_title" maxlength="25"></div>
+                </div>
+                <div class="pbs_regwall_clearleft"></div>
+
+                <div class="pbs_regwall_formblock">
+                    <div class="pbs_regwall_formlabel"><label for="x_emailaddress" class="pbs_regwall_required">E-mail:</label></div>
+                    <div class="pbs_regwall_formfield"><input type="email" name="x_emailaddress" id="x_emailaddress" maxlength="25"></div>
+                </div>
+                <div class="pbs_regwall_formblock">
+                    <div class="pbs_regwall_formlabel"><label for="x_udf_industry__ss">Industry:</label> (optional)</div>
+                    <div class="pbs_regwall_formfield"><select id="x_udf_industry__ss" name="x_udf_industry__ss"><option value=""></option><option value="77">Aerospace</option><option value="78">Agriculture</option><option value="79">Automotive</option><option value="80">Business Services</option><option value="81">Construction/Real Estate</option><option value="82">Consumer Products</option><option value="83">Education</option><option value="84">Energy/Utilities</option><option value="85">Financial Services</option><option value="86">Government</option><option value="87">Healthcare</option><option value="88">Industrial Products</option><option value="89">Leisure/Personal Services</option><option value="90">Media/Entertainment</option><option value="91">Non-Profit</option><option value="93">Paper/Printing</option><option value="94">Retail/Distribution</option><option value="95">Technology/Telecom</option><option value="96">Transportation</option><option value="92">Other</option></select></div>
+                </div>
+                <div class="pbs_regwall_clearleft"></div>
+
+                <div class="pbs_regwall_formlabel"><label>Subscribe to mailings?</label></div>
+                <div class="pbs_regwall_formfield">
+                    <input type="radio" id="optin_yes" name="x_udf_optin__ss" value="98" checked>
+                    <label for="optin_yes">Yes</label> &nbsp;
+                    <input type="radio" id="optin_no" name="x_udf_optin__ss" value="99">
+                    <label for="optin_no">No</label>
+                </div>
+                <input type="button" value="Submit" class="button" onclick="pbs_regwall_checkData();" id="etrSubmit" />
+            </form>
+        </div>
+    </div>
+</div>

@@ -9,37 +9,92 @@
 */
 
 class PbsRegWall {
-	private $metakey = "pbs_regwall";
+	private $metakey 		= "pbs_regwall";
+	private $cookie_name	= "regflag";
+	private $cookie_value	= "ok";
 
 
-	public function __construct() {
+	public function __construct () {
+
+		//
+		// Load options from settings page
+		//
+
+		// cookie name/value
+		if (trim(get_option("cookie_name")) != "" && trim(get_option("cookie_value")) != "") {
+			$this->cookie_name = get_option("cookie_name");
+			$this->cookie_value = get_option("cookie_value");
+		}
+
+		//
+		// Filter Hooks
+		//
+
 		// add filter to post content
 		add_filter("the_content", array($this, "filter_the_content"));
+
+		//
+		// Action Hooks
+		//
 
 		// add box to post edit page
 		add_action("add_meta_boxes", array($this, "action_add_meta_boxes"));
 
 		// make sure it's values get saved when post is saved
 		add_action("save_post", array($this, "action_save_post"));
+
+		// add page to admin>settings menue
+		if (is_admin()) {
+			add_action("admin_menu", array($this, "action_admin_menu"));
+			add_action("admin_init", array($this, "action_admin_init"));
+		}
 	}
 
 	/**
 	 * Checks for existence of pbs_regwall meta flag and displays paywall html
-	 *
-	 * @TODO: implement final html
 	 *
 	 * @param $content The post content ($post[content])
 	 * @return string  The modified post content
 	 */
 	public function filter_the_content ($content) {
 		global $post;
-		$return = "";
-		if (get_post_meta($post->ID, $this->metakey, true) == 1) {
-			$return .= "<div style='position: absolute; width: 100%; height: 100%; background-color: red'> </div>";
+		$return = $content;
+
+		//
+		// Show Reg Wall if
+		// 	- view is single post view
+		//	- post is regwalled
+		//	- user does not have regwall cookie
+		//
+
+		if (is_single($post) && get_post_meta($post->ID, $this->metakey, true) == 1) {
+			if ((! is_user_logged_in() || get_option("force_regwall_for_loggedin_users")) && (! isset($_COOKIE[$this->cookie_name]) || $_COOKIE[$this->cookie_name] != $this->cookie_value)) {
+				// load static assets
+				$this->load_static_assets();
+
+				// load content
+				$tmpl = (trim(get_option("regwall_html")) != "") ? get_option("regwall_html") : \includes\Includer::get_regwall_html();
+
+				// replace markers
+				$rendered_content = str_replace(
+					array("###CONTENT###", "###TRACKING###", "###EXCERPT###"),
+					array($content, $post->ID, ((empty($post->post_excerpt)) ? substr($content, 0, 80) : $post->post_excerpt)),
+					$tmpl
+				);
+				$return = $rendered_content;
+			}
 		}
-		$return .= $content;
 
 		return $return;
+	}
+
+	/**
+	 * Adds the static assets (css/js) to DOM
+	 * @param bool $version Version string of Asset
+	 */
+	private function load_static_assets ($version = false) {
+		wp_enqueue_style("pbs_regwall_css", plugins_url("static/css/prophet-regwall.css", __FILE__), array(), $version);
+		wp_enqueue_script("pbs_regwall_css", plugins_url("static/js/prophet-regwall.js", __FILE__), array(), $version);
 	}
 
 	//
@@ -106,6 +161,35 @@ HTML;
 		}
 	}
 
+	//
+	// ------------------------------------------------------------------------------------------------
+	// Admin Settings Page related functions
+	// ------------------------------------------------------------------------------------------------
+	//
+
+	public function  action_admin_init () {
+		register_setting("pbs_regwall_option_group", "force_regwall_for_loggedin_users");
+		register_setting("pbs_regwall_option_group", "regwall_html");
+		register_setting("pbs_regwall_option_group", "cookie_name");
+		register_setting("pbs_regwall_option_group", "cookie_value");
+	}
+
+	public function action_admin_menu () {
+		add_options_page(
+			"Prophet Regwall Settings",
+			"Prophet Regwall",
+			"manage_options",
+			$this->metakey."_settings",
+			array($this, "add_options_page")
+		);
+	}
+
+	public function add_options_page () {
+		echo \includes\Includer::get_settings_html();
+	}
+
 }
+
+require_once "includes/Includer.php";
 
 $pbs_regwall = new PbsRegWall();
