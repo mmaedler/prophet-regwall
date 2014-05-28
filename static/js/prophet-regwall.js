@@ -2,6 +2,15 @@
  * Created by mmaedler on 19.05.14.
  */
 
+// show regwall
+jQuery(document).ready(function() {
+    if (pbs_regwall_read_cookie("regflag") == "ok") return;
+    jQuery.each(["pbs_regwall_obscured","pbs_regwall_registration_overlay","pbs_regwall_registration_block"], function (idx, id) {
+        jQuery("#"+id).addClass(id);
+    });
+});
+
+
 function pbs_regwall_is_valid_email (email) {
     var filter = /^([a-zA-Z0-9]+[a-zA-Z0-9_\-\.]*\@([a-zA-Z0-9]+[a-zA-Z0-9\_-]*\.)+[a-zA-Z0-9]+)$/;
     return filter.test(email) ? true : false;
@@ -50,4 +59,11 @@ function pbs_regwall_set_cookie (name, value, days) {
     }
     else var expires = "";
     document.cookie = name+"="+value+expires+"; path=/";
+}
+
+// credits to http://stackoverflow.com/questions/5639346/shortest-function-for-reading-a-cookie-in-javascript
+function pbs_regwall_read_cookie(key)
+{
+    var result;
+    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
 }
