@@ -48,8 +48,15 @@ function pbs_regwall_checkData(){ if (! pbs_regwall_check_form("#etrReg")) { ret
 function pbs_regwall_registered () {
     // remember data for other locked articles
     pbs_regwall_set_cookie("regflag", "ok", 365);
-    // reveal it
-    window.location.reload();
+
+    // make a note to GA
+    _gaq = _gaq || [];
+    _gaq.push(["_trackEvent", "ArticleSignUp", "Submit", jQuery("#pbs_regwall_trackingfield").val()]);
+
+    // reveal the post
+    jQuery.each(["pbs_regwall_obscured","pbs_regwall_registration_overlay","pbs_regwall_registration_block"], function (idx, id) {
+        jQuery("#"+id).removeClass(id);
+    });
 }
 function pbs_regwall_set_cookie (name, value, days) {
     if (days) {
@@ -62,8 +69,7 @@ function pbs_regwall_set_cookie (name, value, days) {
 }
 
 // credits to http://stackoverflow.com/questions/5639346/shortest-function-for-reading-a-cookie-in-javascript
-function pbs_regwall_read_cookie(key)
-{
+function pbs_regwall_read_cookie (key) {
     var result;
     return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
 }
