@@ -68,7 +68,7 @@ class PbsRegWall {
 		//
 
 		if (is_single($post) && get_post_meta($post->ID, $this->metakey, true) == 1) {
-			if ((! is_user_logged_in() || get_option("force_regwall_for_loggedin_users")) && (! isset($_COOKIE[$this->cookie_name]) || $_COOKIE[$this->cookie_name] != $this->cookie_value)) {
+			if ((! is_user_logged_in() || get_option("force_regwall_for_loggedin_users"))) {
 				// load static assets
 				$this->load_static_assets();
 
