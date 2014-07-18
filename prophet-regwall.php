@@ -52,7 +52,6 @@ class PbsRegWall {
 
 	/**
 	 * Checks for existence of pbs_regwall meta flag and displays paywall html
-	 *
 	 * @param $content The post content ($post[content])
 	 * @return string  The modified post content
 	 */
@@ -129,7 +128,6 @@ HTML;
 
 	/**
 	 * Handles post saves.
-	 *
 	 * @param $post_id The Post id
 	 */
 	public function action_save_post ($post_id) {
@@ -167,6 +165,9 @@ HTML;
 	// ------------------------------------------------------------------------------------------------
 	//
 
+	/**
+	 * Setup regwall related admin variables
+	 */
 	public function  action_admin_init () {
 		register_setting("pbs_regwall_option_group", "force_regwall_for_loggedin_users");
 		register_setting("pbs_regwall_option_group", "regwall_html");
@@ -174,6 +175,9 @@ HTML;
 		register_setting("pbs_regwall_option_group", "cookie_value");
 	}
 
+	/**
+	 * Include a link into the admin menue
+	 */
 	public function action_admin_menu () {
 		add_options_page(
 			"Prophet Regwall Settings",
@@ -184,6 +188,9 @@ HTML;
 		);
 	}
 
+	/**
+	 * Add the options page
+	 */
 	public function add_options_page () {
 		echo \includes\Includer::get_settings_html();
 	}
@@ -191,5 +198,4 @@ HTML;
 }
 
 require_once "includes/Includer.php";
-
 $pbs_regwall = new PbsRegWall();
